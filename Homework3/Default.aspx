@@ -16,9 +16,7 @@
                     <asp:BoundField DataField="StudentID" HeaderText="StudentID" ReadOnly="True" SortExpression="StudentID">
                     <HeaderStyle BackColor="Red" ForeColor="White" />
                     </asp:BoundField>
-                    <asp:BoundField DataField="StudentName" HeaderText="StudentName" SortExpression="StudentName">
-                    <HeaderStyle BackColor="Red" ForeColor="White" />
-                    </asp:BoundField>
+                    <asp:HyperLinkField DataNavigateUrlFields="StudentID" DataNavigateUrlFormatString="StudentInfo.aspx?id={0}" DataTextField="StudentName" HeaderText="Student Name" InsertVisible="False" NavigateUrl="StudentInfo.aspx?id={0}" />
                     <asp:BoundField DataField="BirthDate" HeaderText="BirthDate" SortExpression="BirthDate">
                     <HeaderStyle BackColor="Red" ForeColor="White" />
                     </asp:BoundField>
@@ -38,12 +36,12 @@
         </div>
         Courses<br />
         <br />
-        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="CourseID" DataSourceID="SqlDataSource2" ForeColor="#333333" GridLines="None">
+        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="CourseID" DataSourceID="SqlDataSource2" ForeColor="#333333" GridLines="None" AllowPaging="True">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
                 <asp:BoundField DataField="CourseID" HeaderText="CourseID" InsertVisible="False" ReadOnly="True" SortExpression="CourseID" />
                 <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" SortExpression="CourseCode" />
-                <asp:BoundField DataField="CourseName" HeaderText="CourseName" SortExpression="CourseName" />
+                <asp:HyperLinkField DataNavigateUrlFields="CourseID" DataTextField="CourseID" DataNavigateUrlFormatString="CourseInfo.aspx?id={0}" />
                 <asp:BoundField DataField="Instructor" HeaderText="Instructor" SortExpression="Instructor" />
             </Columns>
             <EditRowStyle BackColor="#2461BF" />
