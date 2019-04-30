@@ -11,4 +11,18 @@ public partial class CourseInfo : System.Web.UI.Page
     {
 
     }
+
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            SqlDataSource4.Insert();
+        }
+        catch (System.Data.SqlClient.SqlException)
+        {
+            lblRegisterStudent.Text = "The selected student has already been registered to the course!";  
+        }
+            GridView1.DataBind();
+    }
 }

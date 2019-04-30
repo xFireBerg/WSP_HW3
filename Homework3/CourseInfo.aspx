@@ -10,18 +10,67 @@
     <form id="form1" runat="server">
         <div>
             Course Info<br />
-            <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="125px">
+            <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="125px" AutoGenerateRows="False" DataKeyNames="CourseID" DataSourceID="SqlDataSource1">
+                <Fields>
+                    <asp:BoundField DataField="CourseID" HeaderText="CourseID" InsertVisible="False" ReadOnly="True" SortExpression="CourseID" />
+                    <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" SortExpression="CourseCode" />
+                    <asp:BoundField DataField="CourseName" HeaderText="CourseName" SortExpression="CourseName" />
+                    <asp:BoundField DataField="Instructor" HeaderText="Instructor" SortExpression="Instructor" />
+                    <asp:CommandField ShowEditButton="True" />
+                </Fields>
             </asp:DetailsView>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" DeleteCommand="DELETE FROM [Courses] WHERE [CourseID] = @CourseID" InsertCommand="INSERT INTO [Courses] ([CourseCode], [CourseName], [Instructor]) VALUES (@CourseCode, @CourseName, @Instructor)" SelectCommand="SELECT * FROM [Courses] WHERE ([CourseID] = @CourseID)" UpdateCommand="UPDATE [Courses] SET [CourseCode] = @CourseCode, [CourseName] = @CourseName, [Instructor] = @Instructor WHERE [CourseID] = @CourseID">
+                <DeleteParameters>
+                    <asp:Parameter Name="CourseID" Type="Int32" />
+                </DeleteParameters>
+                <InsertParameters>
+                    <asp:Parameter Name="CourseCode" Type="String" />
+                    <asp:Parameter Name="CourseName" Type="String" />
+                    <asp:Parameter Name="Instructor" Type="String" />
+                </InsertParameters>
+                <SelectParameters>
+                    <asp:QueryStringParameter Name="CourseID" QueryStringField="id" Type="Int32" />
+                </SelectParameters>
+                <UpdateParameters>
+                    <asp:Parameter Name="CourseCode" Type="String" />
+                    <asp:Parameter Name="CourseName" Type="String" />
+                    <asp:Parameter Name="Instructor" Type="String" />
+                    <asp:Parameter Name="CourseID" Type="Int32" />
+                </UpdateParameters>
+            </asp:SqlDataSource>
             <br />
             Registered Students<br />
-            <asp:GridView ID="GridView1" runat="server">
+            <asp:GridView ID="GridView1" runat="server" DataSourceID="SqlDataSource2" AutoGenerateColumns="False">
+                <Columns>
+                    <asp:BoundField DataField="StudentID" HeaderText="StudentID" SortExpression="StudentID" />
+                    <asp:HyperLinkField DataNavigateUrlFields="StudentID" DataNavigateUrlFormatString="StudentInfo.aspx?id={0}" DataTextField="StudentName" HeaderText="Student Name" SortExpression="StudentName" />
+                </Columns>
             </asp:GridView>
+            <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Enrolment], [Students] WHERE [Students].[StudentID] = [Enrolment].[StudentID] AND [Enrolment].[CourseID]= @CourseID">
+                <SelectParameters>
+                    <asp:QueryStringParameter Name="CourseID" QueryStringField="id" Type="Int32" />
+                </SelectParameters>    
+            </asp:SqlDataSource>
             <br />
             <br />
             Register a new student<br />
             <br />
-            <asp:DropDownList ID="DropDownList1" runat="server">
+            <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="SqlDataSource3" DataTextField="StudentName" DataValueField="StudentID" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+                <asp:ListItem>&lt;Select student&gt;</asp:ListItem>
             </asp:DropDownList>
+            <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Students] ORDER BY [StudentName]"></asp:SqlDataSource>
+            <asp:Label ID="lblRegisterStudent" runat="server"></asp:Label>
+            <br />
+            <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" DeleteCommand="DELETE FROM [Enrolment] WHERE [StudentID] = @StudentID AND [CourseID] = @CourseID" InsertCommand="INSERT INTO [Enrolment] ([StudentID], [CourseID]) VALUES (@StudentID, @CourseID)" SelectCommand="SELECT * FROM [Enrolment]">
+                <DeleteParameters>
+                    <asp:Parameter Name="StudentID" Type="Int32" />
+                    <asp:Parameter Name="CourseID" Type="Int32" />
+                </DeleteParameters>
+                <InsertParameters>
+                    <asp:ControlParameter ControlID="DropDownList1" Name="StudentID" PropertyName="SelectedValue" Type="Int32" />
+                    <asp:QueryStringParameter Name="CourseID" QueryStringField="id" Type="Int32" />
+                </InsertParameters>
+            </asp:SqlDataSource>
         </div>
     </form>
 </body>

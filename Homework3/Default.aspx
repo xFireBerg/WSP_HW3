@@ -41,7 +41,7 @@
             <Columns>
                 <asp:BoundField DataField="CourseID" HeaderText="CourseID" InsertVisible="False" ReadOnly="True" SortExpression="CourseID" />
                 <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" SortExpression="CourseCode" />
-                <asp:HyperLinkField DataNavigateUrlFields="CourseID" DataTextField="CourseID" DataNavigateUrlFormatString="CourseInfo.aspx?id={0}" />
+                <asp:HyperLinkField DataNavigateUrlFields="CourseID" DataTextField="CourseName" DataNavigateUrlFormatString="CourseInfo.aspx?id={0}" HeaderText="Course Name" />
                 <asp:BoundField DataField="Instructor" HeaderText="Instructor" SortExpression="Instructor" />
             </Columns>
             <EditRowStyle BackColor="#2461BF" />
